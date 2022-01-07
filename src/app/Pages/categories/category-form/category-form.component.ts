@@ -41,7 +41,7 @@ category: Category = new Category();
     this.submittingForm = true;
 
     // tslint:disable-next-line: triple-equals
-    if (this.setCurrentAction == 'new') {
+    if (this.currentAction == 'new') {
       this.createCategory();
     } else { this.updateCategory(); }
   }
@@ -94,11 +94,16 @@ category: Category = new Category();
     this.categoryService.create(category)
                         // tslint:disable-next-line: no-shadowed-variable
                         .subscribe( category => this.actionsForSuccess(category),
-                                    error => this.actionsForError() );
+                                    error => this.actionsForError(error) );
   }
 
   private updateCategory() {
+    const category: Category = Object.assign(new Category(), this.categoryForm.value);
 
+    this.categoryService.update(category)
+                        // tslint:disable-next-line: no-shadowed-variable
+                        .subscribe(category => this.actionsForSuccess(category),
+                                   error => this.actionsForError(error) );
   }
 
   private actionsForSuccess(category: Category) {
@@ -106,7 +111,7 @@ category: Category = new Category();
 
     // Redirect/reload component page( skipLocationChange não salva o redirecionamento no cache do browser)
     this.router.navigateByUrl('categories', {skipLocationChange: true}).then(
-      () => this.router.navigate(['categories', category.id, 'edit'])
+      () => this.router.navigate(['categories', category.id, 'editar'])
     );
   }
 
