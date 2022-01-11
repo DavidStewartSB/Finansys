@@ -21,7 +21,7 @@ export class EntryListComponent implements OnInit {
     );
   }
 
-  deleteCategory(entry) {
+  deleteEntry(entry) {
     const mustDelete = confirm('Deseja realmente excluir este item?');
     if (mustDelete) {
       this.entryService.delete(entry.id).subscribe(

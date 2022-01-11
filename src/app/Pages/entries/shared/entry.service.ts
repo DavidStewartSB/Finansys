@@ -43,7 +43,7 @@ export class EntryService {
     update(entry: Entry): Observable<Entry> {
         const url = `${this.apiPath}/${entry.id}`;
 
-        return this.http.put(url, Entry).pipe(
+        return this.http.put(url, entry).pipe(
             catchError(this.handlerError),
             map(() => entry)
         );
