@@ -70,7 +70,7 @@ export class EntryFormComponent implements OnInit {
   submitForm() {
     this.submittingForm = true;
     // tslint:disable-next-line: triple-equals
-    if (this.currentAction == 'new') {
+    if (this.currentAction == 'nova') {
       this.createEntry();
     } else {this.updateEntry(); }
   }
@@ -121,7 +121,7 @@ export class EntryFormComponent implements OnInit {
   }
 
   private actionsForSuccess(entry: Entry) {
-    toastr.error('Solicitação processada com sucesso!');
+    toastr.success('Solicitação processada com sucesso!');
 
     // Redirect/reload a página do component, não salva no cache do browser essa troca de links
     this.router.navigateByUrl('entries', {skipLocationChange: true}).then(
@@ -155,11 +155,11 @@ export class EntryFormComponent implements OnInit {
       id: [null],
       name: [null, [Validators.required, Validators.minLength(2)]],
       description: [null],
-      type: ['expense', [Validators.required, Validators.minLength(3)]],
-      amount: [null,  [Validators.required, Validators.minLength(3)]],
-      date: [null,  [Validators.required, Validators.minLength(3)]],
-      paid: [true,  [Validators.required, Validators.minLength(3)]],
-      categoryId: [null,  [Validators.required, Validators.minLength(3)]]
+      type: ['expense', [Validators.required]],
+      amount: [null,  [Validators.required]],
+      date: [null,  [Validators.required]],
+      paid: [true,  [Validators.required]],
+      categoryId: [null,  [Validators.required]]
     });
   }
 
@@ -171,7 +171,8 @@ export class EntryFormComponent implements OnInit {
       ).subscribe((entry) => {
         this.entry = entry;
         this.entryForm.patchValue(entry); // bind loaded entry data to EntryForm
-      });
+      },
+      (error) => alert('Ocorreu um erro no servidor, tente mais tarde'));
     }
   }
 
